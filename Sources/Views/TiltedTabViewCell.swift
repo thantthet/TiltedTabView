@@ -128,7 +128,7 @@ class TiltedTabViewCell: UICollectionViewCell {
             
             titleLabel.text = ""
             titleLabel.textAlignment = .center
-            titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 12)
             
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +137,7 @@ class TiltedTabViewCell: UICollectionViewCell {
             
             NSLayoutConstraint.activate([
                 closeButton.widthAnchor.constraint(equalTo: closeButton.heightAnchor),
-                closeButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+                closeButton.trailingAnchor.constraint(equalTo: trailingAnchor),
                 closeButton.topAnchor.constraint(equalTo: topAnchor),
                 closeButton.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
@@ -155,17 +155,17 @@ class TiltedTabViewCell: UICollectionViewCell {
         private static var closeImage: UIImage = {
             let block = { (context: CGContext ) in
                 let downwards = UIBezierPath()
-                downwards.move(to: CGPoint(x: 1, y: 1))
-                downwards.addLine(to: CGPoint(x: 11, y: 11))
+                downwards.move(to: CGPoint(x: 3, y: 1))
+                downwards.addLine(to: CGPoint(x: 9, y: 11))
                 UIColor.black.setStroke()
-                downwards.lineWidth = 2
+                downwards.lineWidth = 1.5
                 downwards.stroke()
                 
                 let upwards = UIBezierPath()
-                upwards.move(to: CGPoint(x: 1, y: 11))
-                upwards.addLine(to: CGPoint(x: 11, y: 1))
+                upwards.move(to: CGPoint(x: 3, y: 11))
+                upwards.addLine(to: CGPoint(x: 9, y: 1))
                 UIColor.black.setStroke()
-                upwards.lineWidth = 2
+                upwards.lineWidth = 1.5
                 upwards.stroke()
                 
                 context.addPath(downwards.cgPath)
