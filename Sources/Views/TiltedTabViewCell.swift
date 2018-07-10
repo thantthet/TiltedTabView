@@ -153,7 +153,7 @@ class TiltedTabViewCell: UICollectionViewCell {
         required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
         
         private static var closeImage: UIImage = {
-            return UIGraphicsImageRenderer(size: CGSize(width: 12, height: 12)).image(actions: { context in
+            let block = { (context: CGContext ) in
                 let downwards = UIBezierPath()
                 downwards.move(to: CGPoint(x: 1, y: 1))
                 downwards.addLine(to: CGPoint(x: 11, y: 11))
@@ -168,9 +168,24 @@ class TiltedTabViewCell: UICollectionViewCell {
                 upwards.lineWidth = 2
                 upwards.stroke()
                 
-                context.cgContext.addPath(downwards.cgPath)
-                context.cgContext.addPath(upwards.cgPath)
-            })
+                context.addPath(downwards.cgPath)
+                context.addPath(upwards.cgPath)
+            }
+            let size = CGSize(width: 12, height: 12)
+            if #available(iOSApplicationExtension 10.0, *) {
+                return UIGraphicsImageRenderer(size: size).image(actions: { context in
+                    block(context.cgContext)
+                })
+            } else {
+                UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                let context = UIGraphicsGetCurrentContext()
+                
+                block(context!)
+                
+                let theImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                return theImage!
+            }
         }()
     }
 }
